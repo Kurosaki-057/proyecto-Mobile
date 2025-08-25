@@ -6,19 +6,19 @@ import '../controllers/brand_controller.dart';
 import '../../domain/entities/product.dart';
 import 'cart_provider.dart';
 
-class PumaPage extends StatefulWidget {
-  const PumaPage({super.key});
+class VansPage extends StatefulWidget {
+  const VansPage({super.key});
 
   @override
-  State<PumaPage> createState() => _PumaPageState();
+  State<VansPage> createState() => _VansPageState();
 }
 
-class _PumaPageState extends State<PumaPage> {
+class _VansPageState extends State<VansPage> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<BrandController>().loadProductsByBrand('Puma');
+      context.read<BrandController>().loadProductsByBrand('Vans');
     });
   }
 
@@ -50,35 +50,6 @@ class _PumaPageState extends State<PumaPage> {
               ),
             ),
             
-            // Brand Title
-            Container(
-              width: double.infinity,
-              color: AppColors.accentRed,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              child: Text(
-                "PUMA",
-                style: AppTypography.titleMono.copyWith(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 4,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            
-            // Brand header image
-            Container(
-              width: double.infinity,
-              height: 180,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage('assets/images/PUMARPNDP.jpg'),
-                  fit: BoxFit.cover,
-                ),
-              ),
-            ),
-            
             // Content
             Expanded(
               child: Consumer<BrandController>(
@@ -104,7 +75,7 @@ class _PumaPageState extends State<PumaPage> {
                           ElevatedButton(
                             onPressed: () {
                               controller.clearError();
-                              controller.loadProductsByBrand('Puma');
+                              controller.loadProductsByBrand('Vans');
                             },
                             child: const Text('Reintentar'),
                           ),
@@ -118,6 +89,47 @@ class _PumaPageState extends State<PumaPage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
+                        // Brand title
+                        Text(
+                          "Vans.",
+                          style: AppTypography.titleMono.copyWith(
+                            color: Colors.white,
+                            fontSize: 28,
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        
+                        // Brand header image
+                        Container(
+                          width: double.infinity,
+                          height: 180,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/VANS.jpeg'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
+                        
+                        // Filter button
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: AppColors.accentRed,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Text(
+                            "filtrar por",
+                            style: AppTypography.bodyMono.copyWith(
+                              color: Colors.white,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        
                         // Sort by dropdown
                         Row(
                           children: [
@@ -167,7 +179,7 @@ class _PumaPageState extends State<PumaPage> {
                             child: Padding(
                               padding: const EdgeInsets.all(32),
                               child: Text(
-                                "No hay productos Puma disponibles",
+                                "No hay productos Vans disponibles",
                                 style: AppTypography.bodyMono.copyWith(
                                   color: Colors.white70,
                                 ),
@@ -206,27 +218,36 @@ class _PumaPageState extends State<PumaPage> {
               _SortOption(
                 title: "Posición",
                 value: "posicion",
-                currentValue: controller.sortBy,
+                currentValue: "posicion",
                 onTap: () {
-                  controller.setSortBy("posicion");
+                  // No action needed, already selected
                   Navigator.pop(context);
                 },
               ),
               _SortOption(
                 title: "Precio (menor a mayor)",
                 value: "precio_asc",
-                currentValue: controller.sortBy,
+                currentValue: "posicion",
                 onTap: () {
-                  controller.setSortBy("precio_asc");
+                  // No action needed, already selected
                   Navigator.pop(context);
                 },
               ),
               _SortOption(
                 title: "Precio (mayor a menor)",
                 value: "precio_desc",
-                currentValue: controller.sortBy,
+                currentValue: "posicion",
                 onTap: () {
-                  controller.setSortBy("precio_desc");
+                  // No action needed, already selected
+                  Navigator.pop(context);
+                },
+              ),
+              _SortOption(
+                title: "Nombre",
+                value: "nombre",
+                currentValue: "posicion",
+                onTap: () {
+                  // No action needed, already selected
                   Navigator.pop(context);
                 },
               ),
@@ -253,18 +274,13 @@ class _SortOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isSelected = value == currentValue;
-    
     return ListTile(
       title: Text(
         title,
         style: AppTypography.bodyMono.copyWith(
-          color: isSelected ? AppColors.accentRed : Colors.white,
+          color: currentValue == value ? AppColors.accentRed : Colors.white,
         ),
       ),
-      trailing: isSelected
-          ? const Icon(Icons.check, color: AppColors.accentRed)
-          : null,
       onTap: onTap,
     );
   }
@@ -279,97 +295,122 @@ class _ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.accentRed.withValues(alpha: 0.2),
+          width: 1,
+        ),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           // Product image
           ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              width: double.infinity,
-              height: 200,
-              color: Colors.grey[800],
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            child: AspectRatio(
+              aspectRatio: 16 / 9,
               child: product.image.isNotEmpty
                   ? Image.asset(
                       product.image,
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
-                          color: Colors.grey[700],
+                          color: Colors.grey[800],
                           child: const Icon(
                             Icons.image_not_supported,
                             color: Colors.white54,
-                            size: 48,
+                            size: 40,
                           ),
                         );
                       },
                     )
-                  : const Icon(
-                      Icons.shopping_bag,
-                      color: Colors.white54,
-                      size: 48,
+                  : Container(
+                      color: Colors.grey[800],
+                      child: const Icon(
+                        Icons.shopping_bag,
+                        color: Colors.white54,
+                        size: 48,
+                      ),
                     ),
             ),
           ),
-          const SizedBox(height: 12),
           
-          // Product name
-          Text(
-            product.name,
-            style: AppTypography.bodyMono.copyWith(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 4),
-          
-          // Price and add to cart
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                "\$${product.price.toStringAsFixed(3)}",
-                style: AppTypography.bodyMono.copyWith(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+          // Product info
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  product.name,
+                  style: AppTypography.bodyMono.copyWith(
+                    color: Colors.white,
+                    fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
-              ),
-              Consumer<CartProvider>(
-                builder: (context, cart, child) {
-                  return IconButton(
-                    onPressed: () {
-                      final productMap = {
-                        'id': product.id,
-                        'name': product.name,
-                        'price': product.price,
-                        'brand': product.brand,
-                        'image': product.image,
-                        'size': product.size,
-                        'category': product.category,
-                      };
-                      cart.addItem(productMap);
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            "Agregado al carrito",
-                            style: AppTypography.bodyMono,
-                          ),
+                const SizedBox(height: 8),
+                Text(
+                  "\$${product.price.toStringAsFixed(3)}",
+                  style: AppTypography.bodyMono.copyWith(
+                    color: AppColors.accentRed,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 12),
+                
+                // Add to cart button
+                SizedBox(
+                  width: double.infinity,
+                  child: Consumer<CartProvider>(
+                    builder: (context, cart, child) {
+                      return ElevatedButton(
+                        onPressed: () {
+                          final productMap = {
+                            'id': product.id,
+                            'name': product.name,
+                            'price': product.price,
+                            'brand': product.brand,
+                            'image': product.image,
+                            'size': product.size,
+                            'category': product.category,
+                          };
+                          cart.addItem(productMap);
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(
+                                "Agregado al carrito",
+                                style: AppTypography.bodyMono,
+                              ),
+                              backgroundColor: AppColors.accentRed,
+                              duration: const Duration(seconds: 1),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.accentRed,
-                          duration: const Duration(seconds: 2),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                        ),
+                        child: Text(
+                          "Agregar al carrito",
+                          style: AppTypography.bodyMono.copyWith(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       );
                     },
-                    icon: const Icon(
-                      Icons.add_shopping_cart,
-                      color: Colors.white,
-                      size: 24,
-                    ),
-                  );
-                },
-              ),
-            ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ],
       ),

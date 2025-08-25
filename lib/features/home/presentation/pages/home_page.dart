@@ -24,13 +24,13 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
-    
+
     // Controlador para animaciones de hero/entrada
     _heroController = AnimationController(
       duration: const Duration(milliseconds: 1500),
       vsync: this,
     );
-    
+
     _heroAnimation = Tween<double>(
       begin: 0.0,
       end: 1.0,
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       parent: _heroController,
       curve: Curves.easeOutCubic,
     ));
-    
+
     _heroSlideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.5),
       end: Offset.zero,
@@ -46,10 +46,10 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       parent: _heroController,
       curve: Curves.easeOutBack,
     ));
-    
+
     // Iniciar animación de entrada
     _heroController.forward();
-    
+
     // Lanza la carga/animación escalonada
     Future.microtask(() => context.read<HomeController>().init());
   }
@@ -118,7 +118,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               borderRadius: BorderRadius.circular(22),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.accentRed.withValues(alpha: 0.2),
+                                  color: AppColors.accentRed
+                                      .withValues(alpha: 0.2),
                                   blurRadius: 20,
                                   spreadRadius: 2,
                                 ),
@@ -135,7 +136,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                                     child: Icon(
                                       Icons.skateboarding,
                                       size: 64,
-                                      color: AppColors.accentRed.withValues(alpha: 0.8),
+                                      color: AppColors.accentRed
+                                          .withValues(alpha: 0.8),
                                     ),
                                   );
                                 },
@@ -164,6 +166,51 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                // Imagen de Skateland
+                                Container(
+                                  width: double.infinity,
+                                  height: 200,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16),
+                                    color: AppColors.card.withValues(alpha: 0.1),
+                                  ),
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(16),
+                                    child: Image.asset(
+                                      'assets/images/IS-SO.jpg',
+                                      fit: BoxFit.cover,
+                                      errorBuilder: (context, error, stackTrace) {
+                                        return Container(
+                                          decoration: BoxDecoration(
+                                            color: AppColors.card.withValues(alpha: 0.3),
+                                            borderRadius: BorderRadius.circular(16),
+                                          ),
+                                          child: const Center(
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Icon(
+                                                  Icons.image_not_supported,
+                                                  size: 48,
+                                                  color: Colors.grey,
+                                                ),
+                                                SizedBox(height: 8),
+                                                Text(
+                                                  'Imagen no disponible',
+                                                  style: TextStyle(
+                                                    color: Colors.grey,
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 20),
                                 ShaderMask(
                                   shaderCallback: (bounds) => LinearGradient(
                                     colors: [
@@ -208,7 +255,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               borderRadius: BorderRadius.circular(25),
                               boxShadow: [
                                 BoxShadow(
-                                  color: AppColors.accentRed.withValues(alpha: 0.4),
+                                  color: AppColors.accentRed
+                                      .withValues(alpha: 0.4),
                                   blurRadius: 15,
                                   spreadRadius: 2,
                                   offset: const Offset(0, 5),
@@ -219,10 +267,11 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                               Navigator.push(
                                 context,
                                 PageRouteBuilder(
-                                  pageBuilder: (context, animation, secondaryAnimation) =>
+                                  pageBuilder: (context, animation,
+                                          secondaryAnimation) =>
                                       const LoginPage(),
-                                  transitionsBuilder:
-                                      (context, animation, secondaryAnimation, child) {
+                                  transitionsBuilder: (context, animation,
+                                      secondaryAnimation, child) {
                                     const begin = Offset(1.0, 0.0);
                                     const end = Offset.zero;
                                     const curve = Curves.easeInOutCubic;

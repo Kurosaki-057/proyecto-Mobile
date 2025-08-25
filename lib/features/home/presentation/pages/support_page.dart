@@ -125,7 +125,7 @@ class _SupportPageState extends State<SupportPage>
                         height: 300,
                         decoration: const BoxDecoration(
                           image: DecorationImage(
-                            image: AssetImage('assets/images/skater_hero.jpg'),
+                            image: AssetImage('assets/images/IS-SO.jpg'),
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -169,21 +169,21 @@ class _SupportPageState extends State<SupportPage>
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: [
                             _SocialMediaIcon(
-                              icon: 'assets/images/instagram_icon.png',
+                              icon: 'instagram',
                               color: const Color(0xFFE4405F),
                               animation: _socialAnimation,
                               delay: 0,
                               onTap: () => _showSocialDialog('Instagram'),
                             ),
                             _SocialMediaIcon(
-                              icon: 'assets/images/facebook_icon.png',
+                              icon: 'facebook',
                               color: const Color(0xFF1877F2),
                               animation: _socialAnimation,
                               delay: 200,
                               onTap: () => _showSocialDialog('Facebook'),
                             ),
                             _SocialMediaIcon(
-                              icon: 'assets/images/youtube_icon.png',
+                              icon: 'youtube',
                               color: const Color(0xFFFF0000),
                               animation: _socialAnimation,
                               delay: 400,
@@ -491,9 +491,9 @@ class _SocialMediaIconState extends State<_SocialMediaIcon>
                   ],
                 ),
                 child: Icon(
-                  widget.icon == 'assets/images/instagram_icon.png'
+                  widget.icon == 'instagram'
                       ? Icons.camera_alt
-                      : widget.icon == 'assets/images/facebook_icon.png'
+                      : widget.icon == 'facebook'
                           ? Icons.facebook
                           : Icons.play_arrow,
                   color: Colors.white,

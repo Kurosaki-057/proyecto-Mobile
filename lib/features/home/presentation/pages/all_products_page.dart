@@ -18,41 +18,57 @@ class _AllProductsPageState extends State<AllProductsPage> {
       'id': '1',
       'name': 'Nike Air Force 1',
       'price': 120.0,
-      'imageUrl':
-          'https://via.placeholder.com/300x200/FF0000/FFFFFF?text=Nike+AF1',
+      'image': 'assets/images/NIKE.jpg',
       'category': 'Sneakers'
     },
     {
       'id': '2',
       'name': 'Vans Old Skool',
       'price': 85.0,
-      'imageUrl':
-          'https://via.placeholder.com/300x200/000000/FFFFFF?text=Vans+Old+Skool',
+      'image': 'assets/images/VANS.jpeg',
       'category': 'Sneakers'
     },
     {
       'id': '3',
       'name': 'Converse Chuck Taylor',
       'price': 65.0,
-      'imageUrl':
-          'https://via.placeholder.com/300x200/FF0000/FFFFFF?text=Converse+Chuck',
+      'image': 'assets/images/CONS.jpg',
       'category': 'Sneakers'
     },
     {
       'id': '4',
       'name': 'RipNDip T-Shirt',
       'price': 35.0,
-      'imageUrl':
-          'https://via.placeholder.com/300x200/FF0000/FFFFFF?text=RipNDip+Tee',
+      'image': 'assets/images/RPNDP.png',
       'category': 'T-Shirts'
     },
     {
       'id': '5',
       'name': 'Element Skateboard',
       'price': 150.0,
-      'imageUrl':
-          'https://via.placeholder.com/300x200/000000/FFFFFF?text=Element+Board',
+      'image': 'assets/images/sbdunk88.jpeg',
       'category': 'Skateboards'
+    },
+    {
+      'id': '6',
+      'name': 'Puma RS-X',
+      'price': 95.0,
+      'image': 'assets/images/PUMARPNDP.jpg',
+      'category': 'Sneakers'
+    },
+    {
+      'id': '7',
+      'name': 'Vans x Anderson Paak',
+      'price': 110.0,
+      'image': 'assets/images/Vans-X-Anderson-Paak.jpg',
+      'category': 'Sneakers'
+    },
+    {
+      'id': '8',
+      'name': 'Nike SB Dunk',
+      'price': 140.0,
+      'image': 'assets/images/sbdunk88.jpeg',
+      'category': 'Sneakers'
     },
   ];
 
@@ -143,8 +159,8 @@ class _AnimatedProductCard extends StatelessWidget {
                     width: double.infinity,
                     // ignore: deprecated_member_use
                     color: AppColors.accentRed.withOpacity(0.1),
-                    child: Image.network(
-                      product['imageUrl'],
+                    child: Image.asset(
+                      product['image'] ?? 'assets/images/CONS.jpg',
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
@@ -170,7 +186,7 @@ class _AnimatedProductCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        product['name'],
+                        product['name'] ?? 'Sin nombre',
                         style: AppTypography.bodyMono.copyWith(
                           color: AppColors.textPrimary,
                           fontSize: 12,
@@ -185,7 +201,7 @@ class _AnimatedProductCard extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                product['category'],
+                                product['category'] ?? 'Sin categoría',
                                 style: AppTypography.caption.copyWith(
                                   color: AppColors.textSecondary,
                                   fontSize: 10,
@@ -193,7 +209,7 @@ class _AnimatedProductCard extends StatelessWidget {
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                "\$${(product['price'] as double).toStringAsFixed(0)}",
+                                "\$${((product['price'] as double?) ?? 0.0).toStringAsFixed(0)}",
                                 style: AppTypography.bodyMono.copyWith(
                                   color: AppColors.accentRed,
                                   fontWeight: FontWeight.bold,

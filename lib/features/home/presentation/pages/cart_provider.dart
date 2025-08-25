@@ -7,7 +7,7 @@ class CartProvider extends ChangeNotifier {
 
   int get itemCount => _items.length;
 
-  double get total => _items.fold(0.0, (sum, item) => sum + (item['price'] as double));
+  double get total => _items.fold(0.0, (sum, item) => sum + ((item['price'] as double?) ?? 0.0));
 
   void addItem(Map<String, dynamic> product) {
     // Verificar si el producto ya existe en el carrito

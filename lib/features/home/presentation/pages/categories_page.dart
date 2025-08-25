@@ -48,10 +48,20 @@ class CategoriesPage extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(12),
-                    child: Image.asset("assets/images/sneakers.png",
-                        fit: BoxFit.cover),
+                  Container(
+                    height: 120,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.asset(
+                        "assets/images/shoesBPC.jpg",
+                        fit: BoxFit.cover,
+                        height: 120,
+                      ),
+                    ),
                   ),
                   const SizedBox(height: 8),
                   Text("Sneakers",
@@ -64,19 +74,31 @@ class CategoriesPage extends StatelessWidget {
             const SizedBox(height: 20),
 
             // === T-shirts ===
-            Center(
-              child: Text("T-shirts",
-                  style: AppTypography.bodyMono
-                      .copyWith(color: Colors.white, fontSize: 16)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("T-shirts",
+                      style: AppTypography.bodyMono
+                          .copyWith(color: Colors.white, fontSize: 16)),
+                ],
+              ),
             ),
 
             const SizedBox(height: 20),
 
             // === Skateboards ===
-            Center(
-              child: Text("Skateboards",
-                  style: AppTypography.bodyMono
-                      .copyWith(color: Colors.white, fontSize: 16)),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("Skateboards",
+                      style: AppTypography.bodyMono
+                          .copyWith(color: Colors.white, fontSize: 16)),
+                ],
+              ),
             ),
 
             const Spacer(),
@@ -86,27 +108,42 @@ class CategoriesPage extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               child: Row(
                 children: [
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(8),
-                    child: Container(
-                      color: Colors.black,
-                      padding: const EdgeInsets.all(12),
-                      child:
-                          Image.asset("assets/images/collabs.png", height: 40),
+                  // Logo verde de collabs
+                  Container(
+                    width: 60,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      color: Colors.green,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Center(
+                      child: Text(
+                        "collabs",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: 'monospace',
+                        ),
+                      ),
                     ),
                   ),
                   const SizedBox(width: 12),
+                  // Caja gris con texto
                   Expanded(
                     child: Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.black,
+                        color: Colors.grey[800],
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Text(
                         "Colaboraciones y ediciones especiales entre marcas especializadas en skateboarding con grandes iconos del mundo skate.",
-                        style: AppTypography.caption
-                            .copyWith(color: Colors.greenAccent),
+                        style: AppTypography.caption.copyWith(
+                          color: Colors.white,
+                          fontSize: 12,
+                          height: 1.4,
+                        ),
                       ),
                     ),
                   ),

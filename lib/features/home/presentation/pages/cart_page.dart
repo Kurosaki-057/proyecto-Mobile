@@ -200,8 +200,8 @@ class _CartItemWidgetState extends State<_CartItemWidget>
                         width: 80,
                         height: 80,
                         color: AppColors.accentRed.withValues(alpha: 0.1),
-                        child: Image.network(
-                          widget.item['imageUrl'],
+                        child: Image.asset(
+                          widget.item['image'] ?? 'assets/images/CONS.jpg',
                           fit: BoxFit.cover,
                           errorBuilder: (context, error, stackTrace) {
                             return Icon(

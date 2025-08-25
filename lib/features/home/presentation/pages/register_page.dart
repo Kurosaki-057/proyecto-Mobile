@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import 'dashboard_page.dart';
-import 'register_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage>
+class _RegisterPageState extends State<RegisterPage>
     with TickerProviderStateMixin {
   late AnimationController _fadeController;
   late AnimationController _slideController;
@@ -85,15 +84,15 @@ class _LoginPageState extends State<LoginPage>
           children: [
             // === TOP SECTION - IMAGE BACKGROUND ===
             Expanded(
-              flex: 3,
+              flex: 2,
               child: Stack(
                 children: [
-                  // Imagen de fondo con skateboarders
+                  // Imagen de fondo con skateboarder
                   Container(
                     width: double.infinity,
                     decoration: const BoxDecoration(
                       image: DecorationImage(
-                        image: AssetImage('assets/images/IS.jpg'),
+                        image: AssetImage('assets/images/Skateboarding.jpg'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -137,9 +136,9 @@ class _LoginPageState extends State<LoginPage>
               ),
             ),
 
-            // === BOTTOM SECTION - LOGIN FORM ===
+            // === BOTTOM SECTION - REGISTRATION FORM ===
             Expanded(
-              flex: 2,
+              flex: 3,
               child: Container(
                 width: double.infinity,
                 color: Colors.black,
@@ -157,7 +156,7 @@ class _LoginPageState extends State<LoginPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Inicio de sesión",
+                                "Registro de cuenta",
                                 style: AppTypography.titleMono.copyWith(
                                   color: Colors.white,
                                   fontSize: 28,
@@ -166,7 +165,7 @@ class _LoginPageState extends State<LoginPage>
                               ),
                               const SizedBox(height: 8),
                               Text(
-                                "inicia sesion con tu cuenta de SkateLand",
+                                "crea tu cuenta de SkateLand",
                                 style: AppTypography.bodyMono.copyWith(
                                   color: Colors.white70,
                                   fontSize: 14,
@@ -213,7 +212,7 @@ class _LoginPageState extends State<LoginPage>
                                     ),
                                   ),
                                   filled: true,
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.grey[900],
                                 ),
                               ),
                             ],
@@ -232,7 +231,7 @@ class _LoginPageState extends State<LoginPage>
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Contraseña",
+                                "Escriba su contraseña",
                                 style: AppTypography.caption.copyWith(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -257,7 +256,51 @@ class _LoginPageState extends State<LoginPage>
                                     ),
                                   ),
                                   filled: true,
-                                  fillColor: Colors.black,
+                                  fillColor: Colors.grey[900],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+
+                      const SizedBox(height: 20),
+
+                      // Campo Confirmar Contraseña
+                      SlideTransition(
+                        position: _slideAnimation,
+                        child: FadeTransition(
+                          opacity: _fadeAnimation,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Escriba nuevamente su contraseña",
+                                style: AppTypography.caption.copyWith(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              TextField(
+                                obscureText: true,
+                                style: AppTypography.bodyMono.copyWith(
+                                  color: Colors.white,
+                                ),
+                                decoration: InputDecoration(
+                                  hintText: "introduce tu contraseña",
+                                  hintStyle: AppTypography.bodyMono.copyWith(
+                                    color: Colors.grey,
+                                  ),
+                                  enabledBorder: border,
+                                  focusedBorder: border.copyWith(
+                                    borderSide: const BorderSide(
+                                      color: AppColors.accentRed,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  filled: true,
+                                  fillColor: Colors.grey[900],
                                 ),
                               ),
                             ],
@@ -267,7 +310,7 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 32),
 
-                      // Botón de inicio de sesión
+                      // Botón de crear cuenta
                       ScaleTransition(
                         scale: _buttonScaleAnimation,
                         child: FadeTransition(
@@ -291,7 +334,7 @@ class _LoginPageState extends State<LoginPage>
                                 );
                               },
                               child: Text(
-                                "inicia sesión",
+                                "Crear cuenta",
                                 style: AppTypography.button.copyWith(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -305,33 +348,15 @@ class _LoginPageState extends State<LoginPage>
 
                       const SizedBox(height: 24),
 
-                      // Enlace de registro
+                      // Copyright
                       FadeTransition(
                         opacity: _fadeAnimation,
                         child: Center(
-                          child: GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (_) => const RegisterPage()),
-                              );
-                            },
-                            child: Text.rich(
-                              TextSpan(
-                                text: "¿no tienes cuenta? ",
-                                style: AppTypography.caption.copyWith(
-                                  color: Colors.white70,
-                                ),
-                                children: [
-                                  TextSpan(
-                                    text: "registrate",
-                                    style: AppTypography.caption.copyWith(
-                                      color: AppColors.accentRed,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          child: Text(
+                            "© 2025 SkateLand®. All rights reserved.",
+                            style: AppTypography.caption.copyWith(
+                              color: Colors.white70,
+                              fontSize: 12,
                             ),
                           ),
                         ),

@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../controllers/brand_controller.dart';
+import '../../domain/entities/product.dart';
 import 'cart_provider.dart';
 
 class SalesPage extends StatefulWidget {
@@ -78,6 +79,73 @@ class _SalesPageState extends State<SalesPage> {
               ),
             ),
             
+            // Main Sale Image
+            Container(
+              width: double.infinity,
+              height: 250,
+              decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage('assets/images/NIKEantihero.jpg'),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.6),
+                    ],
+                  ),
+                ),
+                child: Align(
+                  alignment: Alignment.bottomLeft,
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                          decoration: BoxDecoration(
+                            color: AppColors.accentRed,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          child: Text(
+                            "HOT SALE",
+                            style: AppTypography.bodyMono.copyWith(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "Nike SB Collection",
+                          style: AppTypography.titleMono.copyWith(
+                            color: Colors.white,
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(
+                          "Hasta 50% OFF",
+                          style: AppTypography.bodyMono.copyWith(
+                            color: Colors.white70,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            
             // Content
             Expanded(
               child: Consumer<BrandController>(
@@ -132,6 +200,50 @@ class _SalesPageState extends State<SalesPage> {
                             textAlign: TextAlign.center,
                           ),
                         ),
+                        
+                        // Sale images grid
+                        GridView.count(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 12,
+                          mainAxisSpacing: 12,
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/images/SALE.jpeg',
+                                fit: BoxFit.cover,
+                                height: 120,
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/images/SALE2.png',
+                                fit: BoxFit.cover,
+                                height: 120,
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/images/consblue.jpg',
+                                fit: BoxFit.cover,
+                                height: 120,
+                              ),
+                            ),
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(12),
+                              child: Image.asset(
+                                'assets/images/Oldsk.jpg',
+                                fit: BoxFit.cover,
+                                height: 120,
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
                         
                         // Filter button
                         Container(
@@ -312,14 +424,14 @@ class _SortOption extends StatelessWidget {
 }
 
 class _SaleProductCard extends StatelessWidget {
-  final dynamic product;
+  final Product product;
 
   const _SaleProductCard({required this.product});
 
   @override
   Widget build(BuildContext context) {
     // Calculate sale price (30% off)
-    final originalPrice = product.price ?? 0.0;
+    final originalPrice = product.price;
     final salePrice = originalPrice * 0.7;
     final discount = ((originalPrice - salePrice) / originalPrice * 100).round();
 
@@ -337,7 +449,7 @@ class _SaleProductCard extends StatelessWidget {
                   width: double.infinity,
                   height: 200,
                   color: Colors.grey[800],
-                  child: (product.image != null && product.image.isNotEmpty)
+                  child: product.image.isNotEmpty
                       ? Image.asset(
                           product.image,
                           fit: BoxFit.cover,
@@ -385,7 +497,7 @@ class _SaleProductCard extends StatelessWidget {
           
           // Product name
           Text(
-            product.name ?? 'Producto sin nombre',
+            product.name,
             style: AppTypography.bodyMono.copyWith(
               color: Colors.white,
               fontSize: 16,
@@ -427,14 +539,14 @@ class _SaleProductCard extends StatelessWidget {
                   return IconButton(
                     onPressed: () {
                       final productMap = {
-                        'id': product.id ?? 'unknown',
-                        'name': product.name ?? 'Producto sin nombre',
+                        'id': product.id,
+                        'name': product.name,
                         'price': salePrice, // Use sale price
                         'originalPrice': originalPrice,
-                        'brand': product.brand ?? 'Sin marca',
-                        'image': product.image ?? '',
-                        'size': product.size ?? 'N/A',
-                        'category': product.category ?? 'Sin categoría',
+                        'brand': product.brand,
+                        'image': product.image,
+                        'size': product.size,
+                        'category': product.category,
                         'isOnSale': true,
                         'discount': discount,
                       };

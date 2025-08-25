@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import '../controllers/brand_controller.dart';
+import '../../domain/entities/product.dart';
 import 'cart_provider.dart';
 
 class RipNdipPage extends StatefulWidget {
@@ -97,6 +98,20 @@ class _RipNdipPageState extends State<RipNdipPage> {
                           ),
                         ),
                         const SizedBox(height: 16),
+                        
+                        // Brand header image
+                        Container(
+                          width: double.infinity,
+                          height: 180,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/RPNDP.png'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 20),
                         
                         // Filter button
                         Container(
@@ -277,7 +292,7 @@ class _SortOption extends StatelessWidget {
 }
 
 class _ProductCard extends StatelessWidget {
-  final dynamic product;
+  final Product product;
 
   const _ProductCard({required this.product});
 
@@ -295,7 +310,7 @@ class _ProductCard extends StatelessWidget {
               width: double.infinity,
               height: 200,
               color: Colors.grey[800],
-              child: (product.image != null && product.image.isNotEmpty)
+              child: product.image.isNotEmpty
                   ? Image.asset(
                       product.image,
                       fit: BoxFit.cover,
@@ -321,7 +336,7 @@ class _ProductCard extends StatelessWidget {
           
           // Product name and price
           Text(
-            product.name ?? 'Producto sin nombre',
+            product.name,
             style: AppTypography.bodyMono.copyWith(
               color: Colors.white,
               fontSize: 16,
@@ -333,7 +348,7 @@ class _ProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "\$ ${(product.price ?? 0.0).toStringAsFixed(3)}",
+                "\$ ${product.price.toStringAsFixed(3)}",
                 style: AppTypography.bodyMono.copyWith(
                   color: Colors.white,
                   fontSize: 16,

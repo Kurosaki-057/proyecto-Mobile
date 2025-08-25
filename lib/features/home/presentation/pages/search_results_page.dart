@@ -4,9 +4,6 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
 import 'search_provider.dart';
 import 'cart_provider.dart';
-import 'converse_page.dart';
-import 'ripndip_page.dart';
-import 'puma_page.dart';
 
 class SearchResultsPage extends StatelessWidget {
   final String initialQuery;
@@ -88,26 +85,7 @@ class SearchResultsPage extends StatelessWidget {
                       return _BrandChip(
                         label: brand,
                         isSelected: searchProvider.selectedBrand == brand,
-                        onTap: () {
-                          if (brand == 'Converse') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => const ConversePage()),
-                            );
-                          } else if (brand == 'RipNdip') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => const RipNdipPage()),
-                            );
-                          } else if (brand == 'Puma') {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (_) => const PumaPage()),
-                            );
-                          } else {
-                            searchProvider.selectBrand(brand);
-                          }
-                        },
+                        onTap: () => searchProvider.selectBrand(brand),
                       );
                     },
                   );
@@ -254,7 +232,7 @@ class _SearchResultItem extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  product['name'],
+                  product['name'] ?? 'Sin nombre',
                   style: AppTypography.bodyMono.copyWith(
                     color: Colors.white,
                     fontSize: 14,
@@ -265,14 +243,14 @@ class _SearchResultItem extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  product['brand'],
+                  product['brand'] ?? 'Sin marca',
                   style: AppTypography.caption.copyWith(
                     color: Colors.white70,
                   ),
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  "\$${(product['price'] as double).toStringAsFixed(3)}",
+                  "\$${((product['price'] as double?) ?? 0.0).toStringAsFixed(3)}",
                   style: AppTypography.bodyMono.copyWith(
                     color: AppColors.accentRed,
                     fontWeight: FontWeight.bold,

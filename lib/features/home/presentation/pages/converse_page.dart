@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_typography.dart';
-import '../controllers/brand_controller.dart';
 import 'cart_provider.dart';
 
 class ConversePage extends StatefulWidget {
@@ -13,12 +12,42 @@ class ConversePage extends StatefulWidget {
 }
 
 class _ConversePageState extends State<ConversePage> {
+  // Productos mock de Converse para demostración
+  final List<Map<String, dynamic>> _converseProducts = [
+    {
+      'id': 'converse_run_star_trainer',
+      'name': 'Converse Run star trainer navy blue',
+      'price': 500000.0,
+      'image': 'assets/images/consblue.jpg',
+      'category': 'Sneakers',
+    },
+    {
+      'id': 'converse_chuck_taylor',
+      'name': 'Converse Chuck Taylor All Star High',
+      'price': 450000.0,
+      'image': 'assets/images/CONS.jpg',
+      'category': 'Sneakers',
+    },
+    {
+      'id': 'converse_chuck_70',
+      'name': 'Converse Chuck 70',
+      'price': 380000.0,
+      'image': 'assets/images/Chuck70.jpg',
+      'category': 'Sneakers',
+    },
+    {
+      'id': 'converse_janoski',
+      'name': 'Converse Janoski',
+      'price': 420000.0,
+      'image': 'assets/images/Janoski.jpg',
+      'category': 'Sneakers',
+    },
+  ];
+
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<BrandController>().loadProductsByBrand('Converse');
-    });
+    // No necesitamos cargar desde el controlador, usamos productos mock
   }
 
   @override
@@ -51,132 +80,85 @@ class _ConversePageState extends State<ConversePage> {
             
             // Content
             Expanded(
-              child: Consumer<BrandController>(
-                builder: (context, controller, child) {
-                  if (controller.isLoading) {
-                    return const Center(
-                      child: CircularProgressIndicator(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // Brand title
+                    Text(
+                      "Converse.",
+                      style: AppTypography.titleMono.copyWith(
+                        color: Colors.white,
+                        fontSize: 28,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Filter button
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      decoration: BoxDecoration(
                         color: AppColors.accentRed,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                    );
-                  }
-
-                  if (controller.error != null) {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Error: ${controller.error}',
-                            style: AppTypography.bodyMono.copyWith(color: Colors.white),
-                          ),
-                          const SizedBox(height: 16),
-                          ElevatedButton(
-                            onPressed: () {
-                              controller.clearError();
-                              controller.loadProductsByBrand('Converse');
-                            },
-                            child: const Text('Reintentar'),
-                          ),
-                        ],
+                      child: Text(
+                        "filtrar por",
+                        style: AppTypography.bodyMono.copyWith(
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
                       ),
-                    );
-                  }
-
-                  return SingleChildScrollView(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                    ),
+                    const SizedBox(height: 16),
+                    
+                    // Sort by dropdown
+                    Row(
                       children: [
-                        // Brand title
                         Text(
-                          "Converse.",
-                          style: AppTypography.titleMono.copyWith(
+                          "ordenar por:",
+                          style: AppTypography.bodyMono.copyWith(
                             color: Colors.white,
-                            fontSize: 28,
+                            fontSize: 14,
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        
-                        // Filter button
-                        Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: AppColors.accentRed,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Text(
-                            "filtrar por",
-                            style: AppTypography.bodyMono.copyWith(
-                              color: Colors.white,
-                              fontSize: 14,
+                        const SizedBox(width: 8),
+                        GestureDetector(
+                          onTap: () => _showSortOptions(context),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              border: Border.all(color: AppColors.accentRed, width: 1),
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  "posicion",
+                                  style: AppTypography.bodyMono.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 12,
+                                  ),
+                                ),
+                                const SizedBox(width: 4),
+                                const Icon(
+                                  Icons.keyboard_arrow_up,
+                                  color: Colors.white,
+                                  size: 16,
+                                ),
+                              ],
                             ),
                           ),
                         ),
-                        const SizedBox(height: 16),
-                        
-                        // Sort by dropdown
-                        Row(
-                          children: [
-                            Text(
-                              "ordenar por:",
-                              style: AppTypography.bodyMono.copyWith(
-                                color: Colors.white,
-                                fontSize: 14,
-                              ),
-                            ),
-                            const SizedBox(width: 8),
-                            GestureDetector(
-                              onTap: () => _showSortOptions(context, controller),
-                              child: Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                                decoration: BoxDecoration(
-                                  border: Border.all(color: Colors.white, width: 1),
-                                  borderRadius: BorderRadius.circular(6),
-                                ),
-                                child: Row(
-                                  mainAxisSize: MainAxisSize.min,
-                                  children: [
-                                    Text(
-                                      controller.sortBy,
-                                      style: AppTypography.bodyMono.copyWith(
-                                        color: Colors.white,
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    const SizedBox(width: 4),
-                                    const Icon(
-                                      Icons.keyboard_arrow_up,
-                                      color: Colors.white,
-                                      size: 16,
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        const SizedBox(height: 24),
-                        
-                        // Products grid
-                        if (controller.products.isEmpty)
-                          Center(
-                            child: Padding(
-                              padding: const EdgeInsets.all(32),
-                              child: Text(
-                                "No hay productos disponibles para Converse",
-                                style: AppTypography.bodyMono.copyWith(
-                                  color: Colors.white70,
-                                ),
-                              ),
-                            ),
-                          )
-                        else
-                          ...controller.products.map((product) => _ProductCard(product: product)),
                       ],
                     ),
-                  );
-                },
+                    const SizedBox(height: 24),
+                    
+                    // Products grid
+                    ..._converseProducts.map((product) => _ProductCard(product: product)),
+                  ],
+                ),
               ),
             ),
           ],
@@ -185,7 +167,7 @@ class _ConversePageState extends State<ConversePage> {
     );
   }
 
-  void _showSortOptions(BuildContext context, BrandController controller) {
+  void _showSortOptions(BuildContext context) {
     showModalBottomSheet(
       context: context,
       backgroundColor: AppColors.card,
@@ -203,36 +185,36 @@ class _ConversePageState extends State<ConversePage> {
               _SortOption(
                 title: "Posición",
                 value: "posicion",
-                currentValue: controller.sortBy,
+                currentValue: "posicion", // This will be updated by the controller
                 onTap: () {
-                  controller.setSortBy("posicion");
+                  // controller.setSortBy("posicion"); // This line is removed
                   Navigator.pop(context);
                 },
               ),
               _SortOption(
                 title: "Precio (menor a mayor)",
                 value: "precio_asc",
-                currentValue: controller.sortBy,
+                currentValue: "posicion", // This will be updated by the controller
                 onTap: () {
-                  controller.setSortBy("precio_asc");
+                  // controller.setSortBy("precio_asc"); // This line is removed
                   Navigator.pop(context);
                 },
               ),
               _SortOption(
                 title: "Precio (mayor a menor)",
                 value: "precio_desc",
-                currentValue: controller.sortBy,
+                currentValue: "posicion", // This will be updated by the controller
                 onTap: () {
-                  controller.setSortBy("precio_desc");
+                  // controller.setSortBy("precio_desc"); // This line is removed
                   Navigator.pop(context);
                 },
               ),
               _SortOption(
                 title: "Nombre",
                 value: "nombre",
-                currentValue: controller.sortBy,
+                currentValue: "posicion", // This will be updated by the controller
                 onTap: () {
-                  controller.setSortBy("nombre");
+                  // controller.setSortBy("nombre"); // This line is removed
                   Navigator.pop(context);
                 },
               ),
@@ -277,7 +259,7 @@ class _SortOption extends StatelessWidget {
 }
 
 class _ProductCard extends StatelessWidget {
-  final dynamic product;
+  final Map<String, dynamic> product;
 
   const _ProductCard({required this.product});
 
@@ -295,9 +277,9 @@ class _ProductCard extends StatelessWidget {
               width: double.infinity,
               height: 200,
               color: Colors.grey[800],
-              child: (product.image != null && product.image.isNotEmpty)
+              child: (product['image'] != null && product['image'].isNotEmpty)
                   ? Image.asset(
-                      product.image,
+                      product['image'],
                       fit: BoxFit.cover,
                       errorBuilder: (context, error, stackTrace) {
                         return Container(
@@ -321,7 +303,7 @@ class _ProductCard extends StatelessWidget {
           
           // Product name and price
           Text(
-            product.name ?? 'Producto sin nombre',
+                              product['name'] ?? 'Producto sin nombre',
             style: AppTypography.bodyMono.copyWith(
               color: Colors.white,
               fontSize: 16,
@@ -333,7 +315,7 @@ class _ProductCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                "\$ ${(product.price ?? 0.0).toStringAsFixed(3)}",
+                "\$ ${(product['price'] ?? 0.0).toStringAsFixed(3)}",
                 style: AppTypography.bodyMono.copyWith(
                   color: Colors.white,
                   fontSize: 16,
@@ -346,13 +328,13 @@ class _ProductCard extends StatelessWidget {
                   return IconButton(
                     onPressed: () {
                       final productMap = {
-                        'id': product.id ?? 'unknown',
-                        'name': product.name ?? 'Producto sin nombre',
-                        'price': product.price ?? 0.0,
-                        'brand': product.brand ?? 'Sin marca',
-                        'image': product.image ?? '',
-                        'size': product.size ?? 'N/A',
-                        'category': product.category ?? 'Sin categoría',
+                        'id': product['id'] ?? 'unknown',
+                        'name': product['name'] ?? 'Producto sin nombre',
+                        'price': product['price'] ?? 0.0,
+                        'brand': product['brand'] ?? 'Sin marca',
+                        'image': product['image'] ?? '',
+                        'size': product['size'] ?? 'N/A',
+                        'category': product['category'] ?? 'Sin categoría',
                       };
                       cart.addItem(productMap);
                       ScaffoldMessenger.of(context).showSnackBar(

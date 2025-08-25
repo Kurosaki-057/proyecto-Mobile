@@ -11,6 +11,8 @@ import 'search_results_page.dart';
 import 'profile_page.dart';
 import 'sales_page.dart';
 import 'support_page.dart';
+import 'vans_page.dart';
+import 'converse_page.dart';
 
 class DashboardPage extends StatefulWidget {
   const DashboardPage({super.key});
@@ -87,28 +89,112 @@ class _DashboardPageState extends State<DashboardPage> {
                           mainAxisSpacing: 12,
                           children: [
                             _BrandCard(
-                                image: "assets/images/ripndip.png",
+                                image: "assets/images/RPNDP.png",
                                 label: "rip n dip"),
                             _BrandCard(
-                                image: "assets/images/vans.png", label: "vans"),
+                                image: "assets/images/VANS.jpeg", 
+                                label: "vans",
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => const VansPage()),
+                                  );
+                                },
+                            ),
                             _BrandCard(
-                                image: "assets/images/converse.png",
-                                label: "Converse"),
+                                image: "assets/images/CONS.jpg",
+                                label: "Converse",
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(builder: (_) => const ConversePage()),
+                                  );
+                                },
+                            ),
                             _BrandCard(
-                                image: "assets/images/nike.png", label: "nike"),
+                                image: "assets/images/NIKE.jpg", 
+                                label: "nike"),
                           ],
                         ),
                         const SizedBox(height: 12),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.asset("assets/images/sale.png",
-                              fit: BoxFit.cover),
+                        
+                        // Banner SALE con textura de ladrillo
+                        Container(
+                          width: double.infinity,
+                          height: 80,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            color: Colors.grey[800],
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/REG.jpg'),
+                              fit: BoxFit.cover,
+                              colorFilter: ColorFilter.mode(
+                                Colors.black54,
+                                BlendMode.darken,
+                              ),
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "SALE",
+                              style: AppTypography.titleMono.copyWith(
+                                color: AppColors.accentRed,
+                                fontSize: 36,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 4,
+                                shadows: [
+                                  Shadow(
+                                    color: Colors.black,
+                                    offset: const Offset(2, 2),
+                                    blurRadius: 4,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
+                        
                         const SizedBox(height: 12),
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(16),
-                          child: Image.asset("assets/images/vans_anderson.png",
-                              fit: BoxFit.cover),
+                        
+                        // Tarjeta promocional Vans x Anderson .Paak
+                        Container(
+                          width: double.infinity,
+                          height: 120,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(16),
+                            image: const DecorationImage(
+                              image: AssetImage('assets/images/Vans-X-Anderson-Paak.jpg'),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(16),
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  Colors.black.withValues(alpha: 0.7),
+                                ],
+                              ),
+                            ),
+                            child: Align(
+                              alignment: Alignment.bottomLeft,
+                              child: Padding(
+                                padding: const EdgeInsets.all(16),
+                                child: Text(
+                                  "vans x anderson. paak",
+                                  style: AppTypography.bodyMono.copyWith(
+                                    color: Colors.white,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
                         const SizedBox(height: 22),
                         Center(
@@ -316,23 +402,27 @@ class _DashboardPageState extends State<DashboardPage> {
 class _BrandCard extends StatelessWidget {
   final String image;
   final String label;
+  final VoidCallback? onTap;
 
-  const _BrandCard({required this.image, required this.label});
+  const _BrandCard({required this.image, required this.label, this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Expanded(
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Image.asset(image, fit: BoxFit.cover),
+    return GestureDetector(
+      onTap: onTap,
+      child: Column(
+        children: [
+          Expanded(
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(12),
+              child: Image.asset(image, fit: BoxFit.cover),
+            ),
           ),
-        ),
-        const SizedBox(height: 6),
-        Text(label,
-            style: AppTypography.bodyMono.copyWith(color: Colors.white)),
-      ],
+          const SizedBox(height: 6),
+          Text(label,
+              style: AppTypography.bodyMono.copyWith(color: Colors.white)),
+        ],
+      ),
     );
   }
 }
